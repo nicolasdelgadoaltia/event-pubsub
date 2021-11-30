@@ -1,0 +1,32 @@
+{
+  "name": "react-event-pubsub",
+  "version": "1.0.0",
+  "description": "Event pubsub utility to connect elements that share the same UI context",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "publish": "npm run build && npm publish --access public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasdelgadoaltia/event-pubsub.git"
+  },
+  "keywords": [
+    "event",
+    "pubsub",
+    "mfe",
+    "microfrontends"
+  ],
+  "author": "Nicolás Delgado Abad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolasdelgadoaltia/event-pubsub/issues"
+  },
+  "homepage": "https://github.com/nicolasdelgadoaltia/event-pubsub#readme",
+  "devDependencies": {
+    "@types/react": "^17.0.36",
+    "typescript": "^4.5.2",
+    "react": "^17.0.2"
+  }
+}
