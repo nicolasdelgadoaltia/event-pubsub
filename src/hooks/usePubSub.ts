@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { collectionsAreEqual } from '../utils/collection';
 import { TopicSubscription } from '../types';
-import { listen, publish, removeListener } from '../utils/pubsub';
+import pubSub from '../utils/pubsub';
 
 interface Props {
   topicSubscriptions?: TopicSubscription[];
@@ -9,6 +9,19 @@ interface Props {
 
 const usePubSub = ({ topicSubscriptions }: Props) => {
   const [listeners, setListeners] = useState<TopicSubscription[]>([]);
+  const { listen, publish, removeListener, init, close } = pubSub;
+
+  useEffect(() => {
+    init && init();
+  }, []);
+  useEffect(() => {
+    return () => {
+      if (close) {
+        close();
+      }
+    };
+  }, []);
+
   const hasListeners = useMemo(
     () => topicSubscriptions && topicSubscriptions.length > 0,
     [topicSubscriptions]

@@ -1,20 +1,20 @@
-import { sameFunctions } from './functions';
+import { listenerCallback, PubSubProvider, topicType } from '../types';
+import { sameFunctions } from '../../functions';
 
 const namespace = 'mfe-event-messages';
 
-type topicType = string;
-type listenerCallback = (data?: any) => void;
-
-const listeners: any = {};
+let listeners = {};
 
 export const listen = (topic: topicType, callback: listenerCallback) => {
   if (!listeners[topic]) {
     listeners[topic] = [callback];
     window.addEventListener(`${namespace}:${topic}`, (event) => {
-      listeners[topic].forEach((listenerCallback: any) => {
+      listeners[topic].forEach((listenerCallback) => {
         listenerCallback((<CustomEvent>event).detail);
       });
     });
+  } else {
+    listeners[topic] = [...listeners[topic], callback];
   }
 };
 
@@ -28,7 +28,7 @@ export const removeListener = (
   topic: topicType,
   callback: listenerCallback
 ) => {
-  const listenerToRemove = listeners[topic].find((v: any) =>
+  const listenerToRemove = listeners[topic].find((v) =>
     sameFunctions(v, callback)
   );
   if (listenerToRemove) {
@@ -38,3 +38,11 @@ export const removeListener = (
     }
   }
 };
+
+const CustomEventsProvider: PubSubProvider = {
+  listen,
+  publish,
+  removeListener,
+};
+
+export default CustomEventsProvider;
